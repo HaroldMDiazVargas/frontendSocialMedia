@@ -5,3 +5,9 @@ export interface IUser {
   email: string;
   age: number;
 }
+
+export interface IUserDecoded {
+  user: IUser;
+  exp: number;
+  iat: number;
+}
