@@ -56,4 +56,24 @@ export class AuthService {
     this.user$.next(decodedToken.user);
     return of(true);
   }
+
+  get userStream(): Observable<IUser> {
+    return this.user$.asObservable();
+  }
+
+  get userFullName(): Observable<string> {
+    return this.userStream.pipe(
+      switchMap((user: IUser) => {
+        return of(`${user.firstName} ${user.lastName}`);
+      })
+    );
+  }
+
+  get userId(): Observable<number> {
+    return this.user$.asObservable().pipe(
+      switchMap((user: IUser) => {
+        return of(user.id);
+      })
+    );
+  }
 }
