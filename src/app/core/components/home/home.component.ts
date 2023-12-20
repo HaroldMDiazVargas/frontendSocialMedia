@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 export class HomeComponent {
   @ViewChild('f') form!: NgForm;
 
-  submissionType: 'login' | 'join' = 'login';
+  submissionType: 'login' | 'join' = 'join';
 
   toggleText() {
     this.submissionType = this.submissionType === 'login' ? 'join' : 'login';
