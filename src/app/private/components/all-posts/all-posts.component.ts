@@ -15,11 +15,11 @@ export class AllPostsComponent implements OnInit {
   userFullName = '';
   numberOfPosts = 5;
   skipPosts = 0;
-  allLoadedPosts: IPost[] = [];
+  // allLoadedPosts: IPost[] = [];
   queryParams = '';
 
   constructor(
-    private postService: PostService,
+    public postService: PostService,
     private authService: AuthService
   ) {}
 
@@ -41,7 +41,7 @@ export class AllPostsComponent implements OnInit {
       .subscribe({
         next: (posts: IPost[]) => {
           for (let index = 0; index < posts.length; index++) {
-            this.allLoadedPosts.push(posts[index]);
+            this.postService.allLoadedPosts.push(posts[index]);
           }
           this.skipPosts = this.skipPosts + 5;
         },

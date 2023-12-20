@@ -9,6 +9,7 @@ import { IPost } from '../models/post.interface';
 })
 export class PostService {
   private baseUrl: string = environment.apiUrl + '/post';
+  allLoadedPosts: IPost[] = [];
 
   constructor(private http: HttpClient) {}
 

@@ -1,6 +1,6 @@
 
 <section>
-    <div *ngFor="let post of allLoadedPosts" class="flex bg-white border border-gray-200  dark:bg-gray-800 dark:border-gray-700 shadow rounded-lg mx-4 md:mx-auto my-auto mt-2 max-w-md md:max-w-2xl">
+    <div *ngFor="let post of postService.allLoadedPosts" class="flex bg-white border border-gray-200  dark:bg-gray-800 dark:border-gray-700 shadow rounded-lg mx-4 md:mx-auto my-auto mt-2 max-w-md md:max-w-2xl">
         <div class="flex items-start px-4 py-6">
            <img class="w-12 h-12 rounded-full object-cover mr-4 shadow" src="assets/avatar.svg" alt="avatar">
            <div class="">
