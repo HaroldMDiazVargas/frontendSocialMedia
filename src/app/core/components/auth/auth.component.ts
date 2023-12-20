@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-public',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss'],
 })
-export class HomeComponent {
+export class AuthComponent {
   @ViewChild('f') form!: NgForm;
 
   submissionType: 'login' | 'join' = 'login';
@@ -31,8 +31,7 @@ export class HomeComponent {
         })
         .subscribe({
           next: (result) => {
-            console.log(result);
-            return;
+            this.router.navigate(['/private']);
           },
         });
     } else {

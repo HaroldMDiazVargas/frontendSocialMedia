@@ -2,7 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ILogin, ISignup, IToken, IUser, IUserDecoded } from '../models';
-import { BehaviorSubject, Observable, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  from,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { TokenService } from './token.service';
 import { jwtDecode } from 'jwt-decode';
 
@@ -30,5 +38,22 @@ export class AuthService {
         this.user$.next(decodedToken.user);
       })
     );
+  }
+
+  get isUserLoggedIn(): Observable<boolean> {
+    return this.user$.asObservable().pipe(
+      switchMap((user: IUser) => {
+        const isUserAuthenticated = Object.keys(user).length !== 0;
+        return of(isUserAuthenticated);
+      })
+    );
+  }
+
+  checkAuthentication(): Observable<boolean> {
+    const token = this.tokenService.getToken();
+    if (!token) return of(false);
+    const decodedToken: IUserDecoded = jwtDecode(token);
+    this.user$.next(decodedToken.user);
+    return of(true);
   }
 }

@@ -1,11 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './core/components/home/home.component';
+
+import { PrivateComponent } from './private/private.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { AuthComponent } from './core/components/auth/auth.component';
 
 const routes: Routes = [
   {
+    path: 'private',
+    canMatch: [AuthGuard],
+    component: PrivateComponent,
+    loadChildren: () =>
+      import('./private/private.module').then((x) => x.PrivateModule),
+  },
+  {
+    path: '',
+    redirectTo: 'private',
+    pathMatch: 'full',
+  },
+  {
     path: 'auth',
-    component: HomeComponent,
+    component: AuthComponent,
   },
 ];
 
