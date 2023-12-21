@@ -9,6 +9,7 @@ import { StartPostComponent } from './components/start-post/start-post.component
 import { FeedComponent } from './components/feed/feed.component';
 import { PrivateRoutingModule } from './private-routing.module';
 import { FormsModule } from '@angular/forms';
+import { ScrollNearEndDirective } from './directives/scrollNear.directive';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     AllPostsComponent,
     StartPostComponent,
     FeedComponent,
+    ScrollNearEndDirective,
   ],
   imports: [CommonModule, RouterModule, PrivateRoutingModule, FormsModule],
 })

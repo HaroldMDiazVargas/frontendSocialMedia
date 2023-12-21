@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from '../../services/post.service';
 import { BehaviorSubject, Subscription, map, take } from 'rxjs';
@@ -24,7 +24,7 @@ export class AllPostsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getPosts(false);
+    this.getPosts();
     this.authService.userId
       .pipe(take(1))
       .subscribe((userId: number) => this.userId$.next(userId));
@@ -33,22 +33,23 @@ export class AllPostsComponent implements OnInit {
       .subscribe((userFullName: string) => (this.userFullName = userFullName));
   }
 
-  getPosts(isInitialLoad: boolean) {
-    // if (this.skipPosts === 20) ev.target.disabled = true;
+  onNearEndScroll(): void {
+    this.getPosts();
+  }
+
+  getPosts() {
     this.queryParams = `?take=${this.numberOfPosts}&skip=${this.skipPosts}`;
-    const posts = this.postService
-      .getSelectedPosts(this.queryParams)
-      .subscribe({
-        next: (posts: IPost[]) => {
-          for (let index = 0; index < posts.length; index++) {
-            this.postService.allLoadedPosts.push(posts[index]);
-          }
-          this.skipPosts = this.skipPosts + 5;
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+    this.postService.getSelectedPosts(this.queryParams).subscribe({
+      next: (posts: IPost[]) => {
+        for (let index = 0; index < posts.length; index++) {
+          this.postService.allLoadedPosts.push(posts[index]);
+        }
+        this.skipPosts = this.skipPosts + 5;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   togglePost(id: number) {
