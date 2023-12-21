@@ -82,6 +82,14 @@ export class AuthService {
     );
   }
 
+  get userAge(): Observable<number> {
+    return this.user$.asObservable().pipe(
+      switchMap((user: IUser) => {
+        return of(user.age);
+      })
+    );
+  }
+
   logout(): void {
     this.user$.next({} as IUser);
     this.tokenService.removeToken();

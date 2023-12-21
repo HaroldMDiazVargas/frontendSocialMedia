@@ -10,7 +10,9 @@ import { SidebarService } from 'src/app/private/services/sidebar.service';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   userFullName = '';
+  userAge = 0;
   private userFullNameSubscription!: Subscription;
+  private userAgeSubscription!: Subscription;
 
   constructor(
     public sidebarService: SidebarService,
@@ -21,10 +23,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.userFullNameSubscription = this.authService.userFullName.subscribe(
       (fullName: string) => (this.userFullName = fullName)
     );
+    this.userAgeSubscription = this.authService.userAge.subscribe(
+      (age: number) => (this.userAge = age)
+    );
   }
 
   ngOnDestroy(): void {
     this.userFullNameSubscription.unsubscribe();
+    this.userAgeSubscription.unsubscribe();
   }
 
   closeSideBar() {

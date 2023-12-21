@@ -29,14 +29,14 @@
                         </button>
                     </div>
                 </div>
-               <p class="text-gray-700">{{ post.updatedAt | date:'longDate'}}</p>
+               <p class="text-gray-700 text-sm">{{ post.updatedAt | date:'longDate'}}</p>
                <form action="" class="modal__form" #f="ngForm">
                    <textarea
                        name="body" 
                        [(ngModel)]="post.body"
                        #bodyInput="ngModel"
                        id="message"
-                       class="resize-none border-none focus:outline-none focus:border-none bg-transparent" 
+                       class="text-gray-700 text-xl resize-none border-none focus:outline-none focus:border-none bg-transparent" 
                        [readonly]="!allCurrentUpdatePosts.includes(post.id)"
                    ></textarea>
                </form>
