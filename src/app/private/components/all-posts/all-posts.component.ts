@@ -17,6 +17,7 @@ export class AllPostsComponent implements OnInit {
   skipPosts = 0;
   allCurrentUpdatePosts: number[] = [];
   queryParams = '';
+  endPosts = false;
 
   constructor(
     public postService: PostService,
@@ -39,17 +40,19 @@ export class AllPostsComponent implements OnInit {
 
   getPosts() {
     this.queryParams = `?take=${this.numberOfPosts}&skip=${this.skipPosts}`;
-    this.postService.getSelectedPosts(this.queryParams).subscribe({
-      next: (posts: IPost[]) => {
-        for (let index = 0; index < posts.length; index++) {
-          this.postService.allLoadedPosts.push(posts[index]);
-        }
-        this.skipPosts = this.skipPosts + 5;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    if (!this.endPosts)
+      this.postService.getSelectedPosts(this.queryParams).subscribe({
+        next: (posts: IPost[]) => {
+          for (let index = 0; index < posts.length; index++) {
+            this.postService.allLoadedPosts.push(posts[index]);
+          }
+          this.skipPosts = this.skipPosts + 5;
+          this.endPosts = posts.length == 0;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   togglePost(id: number) {
