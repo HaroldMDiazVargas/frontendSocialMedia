@@ -30,4 +30,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   closeSideBar() {
     this.sidebarService.toggle();
   }
+
+  logout() {
+    this.sidebarService.toggle();
+    this.authService.logout();
+  }
 }

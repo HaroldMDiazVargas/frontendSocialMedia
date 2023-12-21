@@ -13,6 +13,7 @@ import {
 } from 'rxjs';
 import { TokenService } from './token.service';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,11 @@ export class AuthService {
   private baseUrl: string = environment.apiUrl + '/auth';
   private user$ = new BehaviorSubject<IUser>({} as IUser);
 
-  constructor(private http: HttpClient, private tokenService: TokenService) {}
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+    private router: Router
+  ) {}
 
   register(newUser: ISignup) {
     return this.http
@@ -75,5 +80,11 @@ export class AuthService {
         return of(user.id);
       })
     );
+  }
+
+  logout(): void {
+    this.user$.next({} as IUser);
+    this.tokenService.removeToken();
+    this.router.navigate(['/auth']);
   }
 }
