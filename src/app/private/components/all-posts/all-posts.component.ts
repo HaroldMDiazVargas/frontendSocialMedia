@@ -25,7 +25,7 @@ export class AllPostsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getPosts();
+    this.getPosts(true);
     this.authService.userId
       .pipe(take(1))
       .subscribe((userId: number) => this.userId$.next(userId));
@@ -35,17 +35,16 @@ export class AllPostsComponent implements OnInit {
   }
 
   onNearEndScroll(): void {
-    this.getPosts();
+    this.getPosts(false);
   }
 
-  getPosts() {
+  getPosts(initilizate: boolean) {
     this.queryParams = `?take=${this.numberOfPosts}&skip=${this.skipPosts}`;
-    if (!this.endPosts)
+    if (!this.endPosts) {
       this.postService.getSelectedPosts(this.queryParams).subscribe({
         next: (posts: IPost[]) => {
-          for (let index = 0; index < posts.length; index++) {
-            this.postService.allLoadedPosts.push(posts[index]);
-          }
+          if (initilizate) this.postService.allLoadedPosts = posts;
+          else this.postService.allLoadedPosts.push(...posts);
           this.skipPosts = this.skipPosts + 5;
           this.endPosts = posts.length == 0;
         },
@@ -53,6 +52,7 @@ export class AllPostsComponent implements OnInit {
           console.log(error);
         },
       });
+    }
   }
 
   togglePost(id: number) {
