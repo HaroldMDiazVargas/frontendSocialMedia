@@ -15,7 +15,7 @@ export class AllPostsComponent implements OnInit {
   userFullName = '';
   numberOfPosts = 5;
   skipPosts = 0;
-  // allLoadedPosts: IPost[] = [];
+  allCurrentUpdatePosts: number[] = [];
   queryParams = '';
 
   constructor(
@@ -50,4 +50,37 @@ export class AllPostsComponent implements OnInit {
         },
       });
   }
+
+  togglePost(id: number) {
+    this.allCurrentUpdatePosts.push(id);
+  }
+
+  deletePost(id: number) {
+    this.postService.deletePost(id).subscribe({
+      next: (result) => {
+        this.postService.allLoadedPosts =
+          this.postService.allLoadedPosts.filter((post) => post.id !== id);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  discardChanges(id: number) {
+    this.allCurrentUpdatePosts = this.allCurrentUpdatePosts.filter(
+      (id) => id !== id
+    );
+  }
+
+  // updatePost(id: number, body: string){
+  //   this.postService.updatePost(id, body).subscribe((next) => {
+  //     const indx = this.postService.allLoadedPosts.findIndex(post => post.id === postToUpdate.id);
+  //         this.postService.allLoadedPosts[indx].body = newBody;
+  //   })
+  //   // this.postService.createPost(body).subscribe((post: IPost) => {
+  //   //   this.postService.allLoadedPosts.unshift(post);
+  //   //   this.form.reset('');
+  //   // });
+  // }
 }
