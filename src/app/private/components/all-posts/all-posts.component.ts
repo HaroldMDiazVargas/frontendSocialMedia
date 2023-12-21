@@ -1,4 +1,11 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from '../../services/post.service';
 import { BehaviorSubject, Subscription, map, take } from 'rxjs';
@@ -10,11 +17,13 @@ import { IPost } from '../../models';
   styleUrls: ['./all-posts.component.scss'],
 })
 export class AllPostsComponent implements OnInit {
-  private userSubscription!: Subscription;
+  @Input() searchFilter?: string;
+
   userId$ = new BehaviorSubject<number>(0);
   userFullName = '';
   numberOfPosts = 5;
   skipPosts = 0;
+  pattern = '';
   allCurrentUpdatePosts: number[] = [];
   queryParams = '';
   endPosts = false;
@@ -34,12 +43,23 @@ export class AllPostsComponent implements OnInit {
       .subscribe((userFullName: string) => (this.userFullName = userFullName));
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    //Detect the input variable changes
+    this.pattern = changes['searchFilter'].currentValue;
+    this.numberOfPosts = 5;
+    this.skipPosts = 0;
+    this.endPosts = false;
+    this.getPosts(true);
+  }
+
   onNearEndScroll(): void {
     this.getPosts(false);
   }
 
   getPosts(initilizate: boolean) {
     this.queryParams = `?take=${this.numberOfPosts}&skip=${this.skipPosts}`;
+    if (this.pattern)
+      this.queryParams = `${this.queryParams}&pattern=${this.pattern}`;
     if (!this.endPosts) {
       this.postService.getSelectedPosts(this.queryParams).subscribe({
         next: (posts: IPost[]) => {

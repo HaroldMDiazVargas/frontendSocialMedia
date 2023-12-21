@@ -10,6 +10,7 @@ import { FeedComponent } from './components/feed/feed.component';
 import { PrivateRoutingModule } from './private-routing.module';
 import { ScrollNearEndDirective } from './directives/scrollNear.directive';
 import { SharedModule } from '../shared/shared.module';
+import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     StartPostComponent,
     FeedComponent,
     ScrollNearEndDirective,
+    SearchFilterComponent,
   ],
   imports: [SharedModule, PrivateRoutingModule],
 })

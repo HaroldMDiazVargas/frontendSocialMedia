@@ -5,4 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.scss'],
 })
-export class FeedComponent {}
+export class FeedComponent {
+  searchContent = '';
+
+  onSearchPost(content: string) {
+    this.searchContent = content;
+  }
+}

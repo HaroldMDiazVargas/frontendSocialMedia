@@ -1,4 +1,5 @@
 <app-start-post></app-start-post>
 <hr
   class="my-5 h-0.5 border-t-2 bg-neutral-100 opacity-100 dark:opacity-50" />
-<app-all-posts></app-all-posts>
+<app-search-filter (search)="onSearchPost($event)"></app-search-filter>
+<app-all-posts [searchFilter]="searchContent"></app-all-posts>
