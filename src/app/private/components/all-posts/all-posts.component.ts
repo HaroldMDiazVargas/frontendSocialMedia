@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostService } from '../../services/post.service';
-import { BehaviorSubject, Subscription, take } from 'rxjs';
+import { BehaviorSubject, Subscription, map, take } from 'rxjs';
 import { IPost } from '../../models';
 
 @Component({
@@ -67,20 +67,26 @@ export class AllPostsComponent implements OnInit {
     });
   }
 
-  discardChanges(id: number) {
+  discardChanges(postId: number) {
     this.allCurrentUpdatePosts = this.allCurrentUpdatePosts.filter(
-      (id) => id !== id
+      (id) => id !== postId
     );
   }
 
-  // updatePost(id: number, body: string){
-  //   this.postService.updatePost(id, body).subscribe((next) => {
-  //     const indx = this.postService.allLoadedPosts.findIndex(post => post.id === postToUpdate.id);
-  //         this.postService.allLoadedPosts[indx].body = newBody;
-  //   })
-  //   // this.postService.createPost(body).subscribe((post: IPost) => {
-  //   //   this.postService.allLoadedPosts.unshift(post);
-  //   //   this.form.reset('');
-  //   // });
-  // }
+  updatePost(id: number, body: string) {
+    this.postService
+      .updatePost(id, body)
+      .pipe(
+        map((updatedPost: IPost) => {
+          const indx = this.postService.allLoadedPosts.findIndex(
+            (post) => post.id === updatedPost.id
+          );
+          this.postService.allLoadedPosts[indx] = updatedPost;
+          this.allCurrentUpdatePosts = this.allCurrentUpdatePosts.filter(
+            (postId) => postId !== id
+          );
+        })
+      )
+      .subscribe();
+  }
 }

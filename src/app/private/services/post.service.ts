@@ -22,7 +22,9 @@ export class PostService {
   }
 
   updatePost(id: number, body: string) {
-    return this.http.put(`${this.baseUrl}/${id}`, { body }).pipe(take(1));
+    return this.http
+      .put<IPost>(`${this.baseUrl}/${id}`, { body })
+      .pipe(take(1));
   }
 
   deletePost(id: number) {
