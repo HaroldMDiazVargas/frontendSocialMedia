@@ -8,10 +8,15 @@ import { SidebarService } from '../../services/sidebar.service';
 })
 export class HeaderComponent {
   openUserDetails = false;
+  mobileMenu = false;
 
   constructor(private sidebarService: SidebarService) {}
 
   toggleSidebar() {
     this.sidebarService.toggle();
+  }
+
+  toggleMobileMenu() {
+    this.mobileMenu = !this.mobileMenu;
   }
 }
