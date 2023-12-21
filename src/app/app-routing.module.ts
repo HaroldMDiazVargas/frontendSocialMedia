@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PrivateComponent } from './private/private.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AuthComponent } from './core/components/auth/auth.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
     path: 'auth',
     component: AuthComponent,
   },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

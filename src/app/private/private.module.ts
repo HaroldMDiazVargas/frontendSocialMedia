@@ -8,8 +8,8 @@ import { AllPostsComponent } from './components/all-posts/all-posts.component';
 import { StartPostComponent } from './components/start-post/start-post.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { PrivateRoutingModule } from './private-routing.module';
-import { FormsModule } from '@angular/forms';
 import { ScrollNearEndDirective } from './directives/scrollNear.directive';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +21,6 @@ import { ScrollNearEndDirective } from './directives/scrollNear.directive';
     FeedComponent,
     ScrollNearEndDirective,
   ],
-  imports: [CommonModule, RouterModule, PrivateRoutingModule, FormsModule],
+  imports: [SharedModule, PrivateRoutingModule],
 })
 export class PrivateModule {}
